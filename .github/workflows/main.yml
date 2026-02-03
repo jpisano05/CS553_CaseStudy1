@@ -1,0 +1,19 @@
+name: Sync to Hugging Face hub
+on: [push, workflow_dispatch]
+
+jobs:
+  sync-to-hub:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with: { ref: main, fetch-depth: 1, lfs: true }
+      - name: Configure HF credentials
+        env:
+          HF_TOKEN: ${{ secrets.CASESTUDY1HF }}
+        run: |
+          git config --global credential.helper store
+          printf "https://user:%s@huggingface.co\n" "$HF_TOKEN" > ~/.git-credentials
+      - name: Push to Hugging Face
+        run: |
+          git remote add hf https://huggingface.co/spaces/ebprihar/cs-553-example.git || true
+          git push --force hf HEAD:main
