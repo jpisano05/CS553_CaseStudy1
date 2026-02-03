@@ -15,5 +15,5 @@ jobs:
           printf "https://user:%s@huggingface.co\n" "$HF_TOKEN" > ~/.git-credentials
       - name: Push to Hugging Face
         run: |
-          git remote add hf https://huggingface.co/spaces/ebprihar/cs-553-example.git || true
+          git remote add hf https://huggingface.co/spaces/jjpisano05/CaseStudy1 || true
           git push --force hf HEAD:main
