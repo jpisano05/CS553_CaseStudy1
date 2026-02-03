@@ -26,7 +26,7 @@ def respond(
         from transformers import pipeline
         import torch
         
-        pipe = pipeline("text-generation", model="Qwen/Qwen3-0.6B")
+        pipe = pipeline("text-generation", model="microsoft/Phi-3-mini-4k-instruct")
         
         prompt = "\n".join([f"{m['role']}: {m['content']}" for m in messages])
         
