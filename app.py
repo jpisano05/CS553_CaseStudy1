@@ -28,7 +28,11 @@ def respond(
         
         pipe = pipeline("text-generation", model="microsoft/Phi-3-mini-4k-instruct")
         
+        print("Pipeline created")
+        
         prompt = "\n".join([f"{m['role']}: {m['content']}" for m in messages])
+        
+        print("Prompt built")
         
         outputs = pipe(
             prompt,
@@ -37,6 +41,8 @@ def respond(
             temperature=temperature,
             top_p=top_p,
         )
+        
+        print("Output gotten")
         
         response = outputs[0]["generated_text"][len(prompt):]
         yield response.strip()
