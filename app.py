@@ -1,6 +1,7 @@
 import gradio as gr
 from huggingface_hub import InferenceClient
-
+from transformers import pipeline
+import torch
 
 def respond(
     message,
@@ -23,8 +24,6 @@ def respond(
 
     if use_local == True:
         #run local model
-        from transformers import pipeline
-        import torch
         
         pipe = pipeline("text-generation", model="microsoft/Phi-3-mini-4k-instruct")
         
