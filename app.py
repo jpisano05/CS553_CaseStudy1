@@ -66,8 +66,7 @@ def respond(
 For information on how to customize the ChatInterface, peruse the gradio docs: https://www.gradio.app/docs/chatinterface
 """
 chatbot = gr.ChatInterface(
-    respond,
-    type="messages",
+    fn=respond,
     additional_inputs=[
         gr.Textbox(value="You are a friendly Chatbot.", label="System message"),
         gr.Slider(minimum=1, maximum=2048, value=512, step=1, label="Max new tokens"),
