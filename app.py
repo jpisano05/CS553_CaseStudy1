@@ -10,34 +10,56 @@ def respond(
     temperature,
     top_p,
     hf_token: gr.OAuthToken,
+    use_local: bool,
 ):
-    """
-    For more information on `huggingface_hub` Inference API support, please check the docs: https://huggingface.co/docs/huggingface_hub/v0.22.2/en/guides/inference
-    """
-    client = InferenceClient(token=hf_token.token, model="openai/gpt-oss-20b")
-
+    global pipe
+    
+    #prepare message
     messages = [{"role": "system", "content": system_message}]
-
     messages.extend(history)
-
     messages.append({"role": "user", "content": message})
 
     response = ""
 
-    for message in client.chat_completion(
-        messages,
-        max_tokens=max_tokens,
-        stream=True,
-        temperature=temperature,
-        top_p=top_p,
-    ):
-        choices = message.choices
-        token = ""
-        if len(choices) and choices[0].delta.content:
-            token = choices[0].delta.content
+    if use_local == True:
+        #run local model
+        from transformers import pipeline
+        import torch
+        
+        pipe = pipeline("text-generation", model="Qwen/Qwen3-0.6B")
+        
+        prompt = "\n".join([f"{m['role']}: {m['content']}" for m in messages])
+        
+        outputs = pipe(
+            prompt,
+            max_new_tokens=max_tokens,
+            do_sample=True,
+            temperature=temperature,
+            top_p=top_p,
+        )
+        
+        response = outputs[0]["generated_text"][len(prompt):]
+        yield response.strip()
+        
+        pass
+    else:
+        #run api model
+        client = InferenceClient(token=hf_token.token, model="openai/gpt-oss-20b")
+        
+        for message in client.chat_completion(
+            messages,
+            max_tokens=max_tokens,
+            stream=True,
+            temperature=temperature,
+            top_p=top_p,
+        ):
+            choices = message.choices
+            token = ""
+            if len(choices) and choices[0].delta.content:
+                token = choices[0].delta.content
 
-        response += token
-        yield response
+            response += token
+            yield response
 
 
 """
@@ -57,6 +79,7 @@ chatbot = gr.ChatInterface(
             step=0.05,
             label="Top-p (nucleus sampling)",
         ),
+        gr.Checkbox(label="Use Local Model?", value = False),
     ],
 )
 
