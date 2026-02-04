@@ -1,4 +1,4 @@
 transformers==4.28.0
 huggingface_hub==0.14.1
 gradio==3.16.0  # Adjust this version to your specific setup
-torch==2.1.0  # Specify compatible PyTorch version
+torch==2.10.0  # Specify compatible PyTorch version
