@@ -30,9 +30,7 @@ def respond(
         print("Pipeline created")
         
         prompt = "\n".join([f"{m['role']}: {m['content']}" for m in messages])
-        
-        print("Prompt built")
-        
+
         outputs = pipe(
             prompt,
             max_new_tokens=max_tokens,
@@ -40,9 +38,7 @@ def respond(
             temperature=temperature,
             top_p=top_p,
         )
-        
-        print("Output gotten")
-        
+
         response = outputs[0]["generated_text"][len(prompt):]
         yield response.strip()
         
