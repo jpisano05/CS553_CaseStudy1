@@ -66,12 +66,12 @@ def respond(
     else:
         # run api model (non-streaming, chat-style)
         
-        if hf_token is None or not getattr(hf_token, "token", None):
+        if hf_token is None or "access_token" not in hf_token:
             yield "Please log in with your Hugging Face account first."
             return
 
         client = InferenceClient(
-            token=hf_token.token,
+            token=hf_token["access_token"],
             model="openai/gpt-oss-20b",
         )
 
