@@ -63,6 +63,7 @@ def respond(
         
         response = outputs[0]['generated_text'][-1]['content'].strip()
         
+        print(outputs)
         print("response:")
         print(USER_PROMPT)
         print(response)
