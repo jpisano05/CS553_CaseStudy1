@@ -121,7 +121,6 @@ with gr.Blocks(title="Coffee Connoisseur") as demo:
                 max_tokens_slider, 
                 hf_login,
                 use_local_checkbox],
-        outputs=chat_output
     )
 
 
