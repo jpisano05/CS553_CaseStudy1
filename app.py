@@ -25,20 +25,20 @@ def respond(
     if use_local == True:
         #run local model
         
-        MODEL_ID = "microsoft/Phi-3-mini-4k-instruct"
+        MODEL_ID = "Qwen/Qwen2.5-0.5B-Instruct"
+
+        device = "cuda" if torch.cuda.is_available() else "cpu"
 
         tokenizer = AutoTokenizer.from_pretrained(
             MODEL_ID,
-            trust_remote_code=True
+            trust_remote_code=True,
         )
 
         model = AutoModelForCausalLM.from_pretrained(
             MODEL_ID,
             trust_remote_code=True,
-            torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32,
-            attn_implementation="eager",
-        ).to("cuda" if torch.cuda.is_available() else "cpu")
-
+            torch_dtype=torch.float16 if device == "cuda" else torch.float32,
+        ).to(device)
 
         pipe = pipeline(
             "text-generation",
