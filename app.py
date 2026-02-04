@@ -15,6 +15,18 @@ def respond(
 ):
     global pipe
     
+    MODEL_ID = "Qwen/Qwen2.5-0.5B-Instruct"
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+
+    tokenizer = AutoTokenizer.from_pretrained(MODEL_ID, trust_remote_code=True)
+    model = AutoModelForCausalLM.from_pretrained(
+        MODEL_ID,
+        trust_remote_code=True,
+        torch_dtype=torch.float16 if device == "cuda" else torch.float32,
+    ).to(device)
+
+    pipe = pipeline("text-generation", model=model, tokenizer=tokenizer)
+    
     SYSTEM_PROMPT = 'Based on a taste profile, you are to recommend a type of coffee. This should include the type of bean, the brew method, and the type of coffee (latte, americano, etc.)'
     USER_PROMPT = message
     
@@ -25,31 +37,6 @@ def respond(
 
     if use_local == True:
         #run local model
-        
-        MODEL_ID = "Qwen/Qwen2.5-0.5B-Instruct"
-
-        device = "cuda" if torch.cuda.is_available() else "cpu"
-
-        tokenizer = AutoTokenizer.from_pretrained(
-            MODEL_ID,
-            trust_remote_code=True,
-        )
-
-        model = AutoModelForCausalLM.from_pretrained(
-            MODEL_ID,
-            trust_remote_code=True,
-            torch_dtype=torch.float16 if device == "cuda" else torch.float32,
-        ).to(device)
-
-        pipe = pipeline(
-            "text-generation",
-            model=model,
-            tokenizer=tokenizer,
-        )
-        
-        print("Pipeline created")
-        
-        print("Prompt built")
         
         outputs = pipe(
             chat,
@@ -62,23 +49,23 @@ def respond(
         response = outputs[0]['generated_text'][-1]['content'].strip()
         yield response
     else:
-        #run api model
-        client = InferenceClient(token=hf_token.token, model="openai/gpt-oss-20b")
-        
-        for message in client.chat_completion(
-            messages,
+        # run api model (non-streaming, chat-style)
+
+        client = InferenceClient(
+            token=hf_token.token,
+            model="openai/gpt-oss-20b",
+        )
+
+        completion = client.chat_completion(
+            messages=chat,
             max_tokens=max_tokens,
-            stream=True,
             temperature=temperature,
             top_p=top_p,
-        ):
-            choices = message.choices
-            token = ""
-            if len(choices) and choices[0].delta.content:
-                token = choices[0].delta.content
+            stream=False,
+        )
 
-            response += token
-            yield response
+        response = completion.choices[0].message.content.strip()
+        yield response
 
 
 """
