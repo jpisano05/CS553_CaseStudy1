@@ -112,7 +112,6 @@ with gr.Blocks(title="Coffee Connoisseur") as demo:
     submit_button.click(
         fn=respond,
         inputs=[user_input, 
-                gr.Textbox(value="", visible=False), 
                 max_tokens_slider, 
                 hf_login,
                 use_local_checkbox],
