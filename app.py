@@ -27,11 +27,20 @@ def respond(
 
     pipe = pipeline("text-generation", model=model, tokenizer=tokenizer)
     
-    SYSTEM_PROMPT = 'Based on a taste profile, you are to recommend a type of coffee. This should include the type of bean, the brew method, and the type of coffee (latte, americano, etc.)'
+    SYSTEM_PROMPT = '''You are a coffee expert. Based on a user's taste profile, recommend them a type of coffee or espresso based drink.
+                        1. The type of coffee bean (origin and variety)
+                        2. The brew method
+                        3. The type of drink
+                        
+                        Give a single paragraph and be short and specific.'''
     USER_PROMPT = message
+    EXAMPLE_INPUT = '''Bright and citrusy'''
+    EXAMPLE_OUTPUT = '''I recommend a medium-bodied Ethiopian Yirgacheffe brewed as a pour-over and served as a latte, highlighting bright citrus and floral notes.'''
     
     chat = [
         {'role': 'system', 'content': SYSTEM_PROMPT},
+        {'role': 'user', 'content': EXAMPLE_INPUT},
+        {'role': 'assistant', 'content': EXAMPLE_OUTPUT},
         {'role': 'user', 'content': USER_PROMPT}
     ]
 
