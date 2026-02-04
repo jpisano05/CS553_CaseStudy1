@@ -81,7 +81,7 @@ with gr.Blocks(title="Coffee Connoisseur") as demo:
             minimum=1, maximum=2048, value=512, step=1, label="Max new tokens"
         )
         use_local_checkbox = gr.Checkbox(label="Use Local Model?", value=False)
-        gr.LoginButton(label="Sign in to Hugging Face")
+        gr.LoginButton()
         
     gr.Markdown("The Coffee Connoisseur")
     gr.Markdown(
