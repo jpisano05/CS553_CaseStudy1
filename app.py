@@ -25,7 +25,7 @@ def respond(
     if use_local == True:
         #run local model
         
-        pipe = pipeline("text-generation", model="microsoft/Phi-3-mini-4k-instruct")
+        pipe = pipeline("text-generation", model="microsoft/Phi-3-mini-4k-instruct", trust_remote_code=True)
         
         print("Pipeline created")
         
