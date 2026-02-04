@@ -5,14 +5,20 @@ import torch
 
 def respond(
     message,
-    history: list[dict[str, str]],
-    system_message,
     max_tokens,
-    hf_token: gr.OAuthToken,
+    hf_login,
     use_local: bool,
-):
+    ):
+    
+    #get login
+    hf_token = None
+    if hf_login and "access_token" in hf_login:
+        hf_token = hf_login["access_token"]
+    
+    #create pipe
     global pipe
     
+    #setup the local model
     MODEL_ID = "Qwen/Qwen2.5-0.5B-Instruct"
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -25,6 +31,7 @@ def respond(
 
     pipe = pipeline("text-generation", model=model, tokenizer=tokenizer)
     
+    #prompts
     SYSTEM_PROMPT = '''You are a coffee expert. Based on a user's taste profile, recommend them a type of coffee or espresso based drink.
                         1. The type of coffee bean (origin and variety)
                         2. The brew method
@@ -35,6 +42,7 @@ def respond(
     EXAMPLE_INPUT = '''Bright and citrusy'''
     EXAMPLE_OUTPUT = '''I recommend a medium-bodied Ethiopian Yirgacheffe brewed as a pour-over and served as a latte, highlighting bright citrus and floral notes.'''
     
+    #setup chat
     chat = [
         {'role': 'system', 'content': SYSTEM_PROMPT},
         {'role': 'user', 'content': EXAMPLE_INPUT},
@@ -53,14 +61,24 @@ def respond(
         
         print("Output gotten")
         
-        response = outputs[0]['generated_text'][-1]['content'].strip()
+        response = outputs[0].strip()
+        
+        print(outputs)
+        print("response:")
+        print(USER_PROMPT)
+        print(response)
         
         chat_output.value = response
     else:
         # run api model (non-streaming, chat-style)
+        
+        print(hf_token)
+        if hf_token is None or "access_token" not in hf_token:
+            yield "Please log in with your Hugging Face account first."
+            return
 
         client = InferenceClient(
-            token=hf_token.token,
+            token=hf_token["access_token"],
             model="openai/gpt-oss-20b",
         )
 
@@ -73,7 +91,6 @@ def respond(
         response = completion.choices[0].message.content.strip()
 
         chat_output.value = response
-
 
 with gr.Blocks(title="Coffee Connoisseur") as demo:
 
