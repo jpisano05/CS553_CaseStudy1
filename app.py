@@ -1,6 +1,6 @@
 import gradio as gr
 from huggingface_hub import InferenceClient
-from transformers import pipeline
+from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 import torch
 
 def respond(
@@ -25,12 +25,32 @@ def respond(
     if use_local == True:
         #run local model
         
-        pipe = pipeline("text-generation", model="microsoft/Phi-3-mini-4k-instruct", trust_remote_code=True)
+        MODEL_ID = "microsoft/Phi-3-mini-4k-instruct"
+
+        tokenizer = AutoTokenizer.from_pretrained(
+            MODEL_ID,
+            trust_remote_code=True
+        )
+
+        model = AutoModelForCausalLM.from_pretrained(
+            MODEL_ID,
+            trust_remote_code=True,
+            torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32,
+            device_map="auto",
+        )
+
+        pipe = pipeline(
+            "text-generation",
+            model=model,
+            tokenizer=tokenizer,
+        )
         
         print("Pipeline created")
         
         prompt = "\n".join([f"{m['role']}: {m['content']}" for m in messages])
-
+        
+        print("Prompt built")
+        
         outputs = pipe(
             prompt,
             max_new_tokens=max_tokens,
@@ -38,7 +58,9 @@ def respond(
             temperature=temperature,
             top_p=top_p,
         )
-
+        
+        print("Output gotten")
+        
         response = outputs[0]["generated_text"][len(prompt):]
         yield response.strip()
         
