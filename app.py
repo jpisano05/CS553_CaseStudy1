@@ -61,7 +61,7 @@ def respond(
         
         print("Output gotten")
         
-        assistant_content = [message['content'].strip() for message in outputs[0]['generated_text'] if message['role'] == 'assistant']
+        response = [message['content'].strip() for message in outputs[0]['generated_text'] if message['role'] == 'assistant']
         
         print(outputs)
         print("response:")
