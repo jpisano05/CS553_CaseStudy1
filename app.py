@@ -62,6 +62,11 @@ def respond(
         print("Output gotten")
         
         response = outputs[0]['generated_text'][-1]['content'].strip()
+        
+        print("response:")
+        print(USER_PROMPT)
+        print(response)
+        
         yield [USER_PROMPT, response]
     else:
         # run api model (non-streaming, chat-style)
