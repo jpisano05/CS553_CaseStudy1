@@ -72,6 +72,7 @@ def respond(
     else:
         # run api model (non-streaming, chat-style)
         
+        print(hf_token)
         if hf_token is None or "access_token" not in hf_token:
             yield "Please log in with your Hugging Face account first."
             return
@@ -127,6 +128,7 @@ with gr.Blocks(title="Coffee Connoisseur") as demo:
                 max_tokens_slider, 
                 hf_login,
                 use_local_checkbox],
+        outputs=chat_output
     )
 
 
