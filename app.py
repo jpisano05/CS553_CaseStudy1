@@ -82,6 +82,8 @@ def respond(
         )
 
         response = completion.choices[0].message.content.strip()
+        print(USER_PROMPT)
+        print(response)
         yield [USER_PROMPT, response]
 
 
