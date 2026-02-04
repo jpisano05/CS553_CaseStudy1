@@ -61,7 +61,7 @@ def respond(
         
         print("Output gotten")
         
-        response = [message['content'].strip() for message in outputs[0]['generated_text'] if message['role'] == 'assistant']
+        response = outputs[0].strip()
         
         print(outputs)
         print("response:")
@@ -89,8 +89,7 @@ def respond(
         )
 
         response = completion.choices[0].message.content.strip()
-        print(USER_PROMPT)
-        print(response)
+
         yield [USER_PROMPT, response]
 
 
