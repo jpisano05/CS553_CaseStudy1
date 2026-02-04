@@ -1,11 +1,2 @@
-# Ensure pip is up-to-date for better compatibility with prebuilt wheels
-pip>=23.0.1  # You can adjust this if needed
-
-# Specify stable versions of dependencies
-transformers==4.28.0  # Stable version of transformers
-huggingface_hub==0.14.1  # Compatible version with transformers 4.28.0
-gradio==3.16.0  # Ensure compatibility with your current gradio version
-torch==2.10.0  # PyTorch 2.10.0 (make sure this is compatible with your setup)
-
-# Install a version of tokenizers that avoids Rust compilation (prebuilt wheels)
-tokenizers==0.12.1  # A version within the acceptable range for transformers 4.28.0
+transformers
+torch
