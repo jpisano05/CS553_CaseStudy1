@@ -102,7 +102,7 @@ with gr.Blocks(title="Coffee Connoisseur") as demo:
             submit_button = gr.Button("Get Recommendation", variant="primary")
 
     gr.Markdown("~~Your Coffee Recommendation~~")
-    chat_output = gr.Textbox(value="...", height=400)
+    chat_output = gr.Textbox(value="...")
 
     submit_button.click(
         fn=respond,
