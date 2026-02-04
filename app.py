@@ -65,6 +65,10 @@ def respond(
         yield response
     else:
         # run api model (non-streaming, chat-style)
+        
+        if hf_token is None or not getattr(hf_token, "token", None):
+            yield "Please log in with your Hugging Face account first."
+            return
 
         client = InferenceClient(
             token=hf_token.token,
