@@ -8,8 +8,6 @@ def respond(
     history: list[dict[str, str]],
     system_message,
     max_tokens,
-    temperature,
-    top_p,
     hf_token: gr.OAuthToken,
     use_local: bool,
 ):
@@ -56,7 +54,8 @@ def respond(
         print("Output gotten")
         
         response = outputs[0]['generated_text'][-1]['content'].strip()
-        yield response
+        
+        chat_output.value = response
     else:
         # run api model (non-streaming, chat-style)
 
@@ -68,39 +67,50 @@ def respond(
         completion = client.chat_completion(
             messages=chat,
             max_tokens=max_tokens,
-            temperature=temperature,
-            top_p=top_p,
             stream=False,
         )
 
         response = completion.choices[0].message.content.strip()
-        yield response
+
+        chat_output.value = response
 
 
-"""
-For information on how to customize the ChatInterface, peruse the gradio docs: https://www.gradio.app/docs/chatinterface
-"""
-chatbot = gr.ChatInterface(
-    fn=respond,
-    additional_inputs=[
-        gr.Textbox(value="You are a friendly Chatbot.", label="System message"),
-        gr.Slider(minimum=1, maximum=2048, value=512, step=1, label="Max new tokens"),
-        gr.Slider(minimum=0.1, maximum=4.0, value=1.0, step=0.1, label="Temperature"),
-        gr.Slider(
-            minimum=0.1,
-            maximum=1.0,
-            value=1.0,
-            step=0.05,
-            label="Top-p (nucleus sampling)",
-        ),
-        gr.Checkbox(label="Use Local Model?", value = False),
-    ],
-)
+with gr.Blocks(title="Coffee Connoisseur") as demo:
 
-with gr.Blocks() as demo:
     with gr.Sidebar():
-        gr.LoginButton()
-    chatbot.render()
+        gr.Markdown("Settings:")
+        max_tokens_slider = gr.Slider(
+            minimum=1, maximum=2048, value=512, step=1, label="Max new tokens"
+        )
+        use_local_checkbox = gr.Checkbox(label="Use Local Model?", value=False)
+        hf_login = gr.LoginButton()
+        
+    gr.Markdown("The Coffee Connoisseur")
+    gr.Markdown(
+        "Enter a taste profile for a desired coffee drink and the Coffee Connoisseur will recommend you a drink."
+        "For best results, keep inputs short like \"Floral and Delicate\" or \"Chocolatey and nutty\""
+    )
+
+    with gr.Row():
+        with gr.Column(scale=3):
+            user_input = gr.Textbox(
+                label="Enter your taste profile",
+                placeholder="e.g., Bright and citrusy, chocolatey, nutty...",
+                lines=2
+            )
+        with gr.Column(scale=1):
+            submit_button = gr.Button("Get Recommendation", variant="primary")
+
+    gr.Markdown("~~Your Coffee Recommendation~~")
+    chat_output = gr.Textbox(value="...", height=400)
+
+    submit_button.click(
+        fn=respond,
+        inputs=[user_input, 
+                max_tokens_slider, 
+                hf_login,
+                use_local_checkbox],
+    )
 
 
 if __name__ == "__main__":
