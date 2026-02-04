@@ -3,12 +3,13 @@ from huggingface_hub import InferenceClient
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 import torch
 
-def respond(message,
-    history: list[dict[str, str]],
-    system_message,
+def respond(
+    message,
     max_tokens,
     hf_token: gr.OAuthToken,
-    use_local: bool,):
+    use_local: bool,
+    ):
+    
     global pipe
     
     MODEL_ID = "Qwen/Qwen2.5-0.5B-Instruct"
@@ -101,8 +102,10 @@ with gr.Blocks(title="Coffee Connoisseur") as demo:
 
     submit_button.click(
         fn=respond,
-        inputs=[user_input, gr.State([]), gr.Textbox(value="", visible=False), 
-                max_tokens_slider, gr.OAuthToken, use_local_checkbox],
+        inputs=[user_input, 
+                gr.Textbox(value="", visible=False), 
+                max_tokens_slider, 
+                use_local_checkbox],
         outputs=chat_output
     )
 
