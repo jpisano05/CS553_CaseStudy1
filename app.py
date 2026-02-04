@@ -73,7 +73,12 @@ def respond(
         yield response
 
 
+gr.Markdown("The Coffee Connoisseur")
+gr.Markdown("Enter a taste profile for a desired coffee drink and the Coffee Connoisseur will recommend you a drink."
+            "For best results, keep inputs short like \"Floral and Delicate\" or \"Chocolatey and nutty\"")
+
 chatbot = gr.ChatInterface(
+    title="The Coffee Connoisseur",
     fn=respond,
     additional_inputs=[
         gr.Textbox(value="You are a friendly Chatbot.", label="System message"),
