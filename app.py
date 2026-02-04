@@ -15,12 +15,13 @@ def respond(
 ):
     global pipe
     
-    #prepare message
-    messages = [{"role": "system", "content": system_message}]
-    messages.extend(history)
-    messages.append({"role": "user", "content": message})
-
-    response = ""
+    SYSTEM_PROMPT = 'Based on a taste profile, you are to recommend a type of coffee. This should include the type of bean, the brew method, and the type of coffee (latte, americano, etc.)'
+    USER_PROMPT = message
+    
+    chat = [
+        {'role': 'system', 'content': SYSTEM_PROMPT},
+        {'role': 'user', 'content': USER_PROMPT}
+    ]
 
     if use_local == True:
         #run local model
@@ -48,24 +49,18 @@ def respond(
         
         print("Pipeline created")
         
-        prompt = "\n".join([f"{m['role']}: {m['content']}" for m in messages])
-        
         print("Prompt built")
         
         outputs = pipe(
-            prompt,
-            max_new_tokens=max_tokens,
-            do_sample=True,
-            temperature=temperature,
-            top_p=top_p,
+            chat,
+            do_sample=False,
+            max_new_tokens=4096
         )
         
         print("Output gotten")
         
-        response = outputs[0]["generated_text"][len(prompt):]
-        yield response.strip()
-        
-        pass
+        response = outputs[0]['generated_text'][-1]['content'].strip()
+        yield response
     else:
         #run api model
         client = InferenceClient(token=hf_token.token, model="openai/gpt-oss-20b")
@@ -94,11 +89,11 @@ chatbot = gr.ChatInterface(
     additional_inputs=[
         gr.Textbox(value="You are a friendly Chatbot.", label="System message"),
         gr.Slider(minimum=1, maximum=2048, value=512, step=1, label="Max new tokens"),
-        gr.Slider(minimum=0.1, maximum=4.0, value=0.7, step=0.1, label="Temperature"),
+        gr.Slider(minimum=0.1, maximum=4.0, value=1.0, step=0.1, label="Temperature"),
         gr.Slider(
             minimum=0.1,
             maximum=1.0,
-            value=0.95,
+            value=1.0,
             step=0.05,
             label="Top-p (nucleus sampling)",
         ),
