@@ -73,10 +73,6 @@ def respond(
         yield response
 
 
-gr.Markdown("The Coffee Connoisseur")
-gr.Textbox(value = "Enter a taste profile for a desired coffee drink and the Coffee Connoisseur will recommend you a drink.")
-gr.Textbox(value = "For best results, keep inputs short like \"Floral and Delicate\" or \"Chocolatey and nutty\"")
-
 chatbot = gr.ChatInterface(
     title="The Coffee Connoisseur",
     fn=respond,
@@ -87,6 +83,9 @@ chatbot = gr.ChatInterface(
 )
 
 with gr.Blocks(title="Coffee Connoisseur") as demo:
+    gr.Markdown("The Coffee Connoisseur")
+    gr.Textbox(value = "Enter a taste profile for a desired coffee drink and the Coffee Connoisseur will recommend you a drink.")
+    gr.Textbox(value = "For best results, keep inputs short like \"Floral and Delicate\" or \"Chocolatey and nutty\"")
     with gr.Sidebar():
         gr.LoginButton()
     chatbot.render()
