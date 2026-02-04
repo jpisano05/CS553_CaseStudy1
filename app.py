@@ -36,8 +36,9 @@ def respond(
             MODEL_ID,
             trust_remote_code=True,
             torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32,
-            device_map="auto",
-        )
+            attn_implementation="eager",
+        ).to("cuda" if torch.cuda.is_available() else "cpu")
+
 
         pipe = pipeline(
             "text-generation",
