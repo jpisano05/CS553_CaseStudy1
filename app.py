@@ -62,7 +62,7 @@ def respond(
         print("Output gotten")
         
         response = outputs[0]['generated_text'][-1]['content'].strip()
-        yield response
+        yield ("", response)
     else:
         # run api model (non-streaming, chat-style)
         
@@ -82,7 +82,7 @@ def respond(
         )
 
         response = completion.choices[0].message.content.strip()
-        yield response
+        yield ("", response)
 
 
 with gr.Blocks(title="Coffee Connoisseur") as demo:
