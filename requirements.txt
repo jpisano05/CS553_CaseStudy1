@@ -1,4 +1,5 @@
-pip install --upgrade pip
+# Ensure pip is up-to-date for better compatibility with prebuilt wheels
+pip>=23.0.1  # You can adjust this if needed
 
 # Specify stable versions of dependencies
 transformers==4.28.0  # Stable version of transformers
