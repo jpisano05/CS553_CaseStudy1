@@ -5,6 +5,7 @@ import torch
 
 def respond(
     message,
+    history,
     max_tokens,
     hf_token: gr.OAuthToken,
     use_local: bool,
