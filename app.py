@@ -46,7 +46,7 @@ def respond(
         outputs = pipe(
             chat,
             do_sample=False,
-            max_new_tokens=4096
+            max_new_tokens=max_tokens
         )
         
         print("Output gotten")
