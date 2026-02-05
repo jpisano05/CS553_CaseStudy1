@@ -7,10 +7,11 @@ def test_api_requires_token():
 
     response = app.respond(
         "Bright and citrusy",
+        "",
         512,
         0,
         True,
     )
     
-    #assert "please log in" not in first.lower()  # shouldn't get warning
+    assert "Ethiopian Yirgacheffe"  in response  # this is what it recommends when asking for bright and citrusy, so getting this means it works
     #assert isinstance(first, str)
