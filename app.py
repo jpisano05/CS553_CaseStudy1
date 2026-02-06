@@ -2,6 +2,7 @@ import gradio as gr
 from huggingface_hub import InferenceClient
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 import torch
+import psutil
 
 #Code for differentiation between running locally and API is based on Professor Paffenroth's Chatbot
 
@@ -33,6 +34,8 @@ def respond(
     if use_local == True:
         #run local model
         
+        cpu_start = psutil.cpu_percent(interval=None)
+        
         global pipe
     
         MODEL_ID = "Qwen/Qwen2.5-0.5B-Instruct"
@@ -54,11 +57,8 @@ def respond(
         )
         
         #for cost analysis
-        if device == "cuda":
-            #using GPU
-            print("Gpu memory: ", torch.cuda.memory_allocated())
-        else:
-            print("running cpu (i think)")
+        cpu_end = psutil.cpu_percent(interval=None)
+        print("CPU used: ", cpu_end - cpu_start)
         
         response = outputs[0]['generated_text'][-1]['content'].strip()
         yield response
