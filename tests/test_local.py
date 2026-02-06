@@ -14,6 +14,6 @@ def test_local():
         hf_token,
         True,
     )
-    
+    print(response)
     assert "Ethiopian Yirgacheffe"  in response  # this is what it recommends when asking for bright and citrusy, so getting this means it works
     #assert isinstance(first, str)
