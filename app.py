@@ -99,20 +99,20 @@ with gr.Blocks(title="Coffee Connoisseur", css="""
                }
                
                .gr-chatbot, .gr-chat-message {
-                   background-color: #BCAAA4;
-                   color: #795548;
+                   background-color: #BCAAA4; !important;
+                   color: #795548; !important;
                    font-family: "Comic Sans MS" !important;
                }
                
                .gr-button {
-                   background-color: #BCAAA4;
-                   color: #795548;
+                   background-color: #BCAAA4; !important;
+                   color: #795548; !important;
                    font-family: "Comic Sans MS" !important;
                }
                
                .gr-slider, .gr-checkbox {
-                   background-color: #BCAAA4;
-                   color: #795548;
+                   background-color: #BCAAA4; !important;
+                   color: #795548; !important;
                    font-family: "Comic Sans MS" !important;
                }
                """) as demo:
