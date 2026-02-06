@@ -92,8 +92,17 @@ chatbot = gr.ChatInterface(
 )
 
 with gr.Blocks(title="Coffee Connoisseur") as demo:
-    gr.Markdown("Enter a taste profile for a desired coffee drink and the Coffee Connoisseur will recommend you a drink.")
-    gr.Markdown("For best results, keep inputs short like \"Floral and Delicate\" or \"Chocolatey and nutty\"")
+    gr.Markdown("<h1 style='color:#6b4f4f'>Enter a taste profile for a desired coffee drink and the Coffee Connoisseur will recommend you a drink.</h1>")
+    gr.Markdown(
+        """
+        <div style='border: 1px solid #ccc; padding: 15px; border-radius: 10px; background-color:#f9f9f9'>
+        <strong>Instructions:</strong><br>
+        Enter a taste profile for a desired coffee drink and the Coffee Connoisseur will recommend you a drink.<br>
+        For best results, keep inputs short like "Floral and Delicate" or "Chocolatey and nutty".
+        </div>
+        """,
+    )    
+    
     with gr.Sidebar():
         gr.LoginButton()
     chatbot.render()
