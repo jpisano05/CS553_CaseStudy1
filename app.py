@@ -93,31 +93,34 @@ chatbot = gr.ChatInterface(
 
 with gr.Blocks(title="Coffee Connoisseur", css="""
                body, * {
-                   color: #795548;
-                   font-family: "Comic Sans MS" !important;
-               }
-               
-               body {
-                   background-color: #F8BBD0;
-               }
-               
-               .gr-chatbot, .gr-chat-message {
-                   background-color: #BCAAA4; !important;
-                   color: #795548; !important;
-                   font-family: "Comic Sans MS" !important;
-               }
-               
-               .gr-button {
-                   background-color: #BCAAA4; !important;
-                   color: #795548; !important;
-                   font-family: "Comic Sans MS" !important;
-               }
-               
-               .gr-slider, .gr-checkbox {
-                   background-color: #BCAAA4; !important;
-                   color: #795548; !important;
-                   font-family: "Comic Sans MS" !important;
-               }
+                    color: #795548;
+                    font-family: "Comic Sans MS" !important;
+                }
+
+                body {
+                    background-color: #F8BBD0;
+                }
+
+                .gr-chatbot, .gr-chat-message {
+                    background-color: #BCAAA4 !important;
+                    color: #795548 !important;
+                    font-family: "Comic Sans MS" !important;
+                }
+
+                .gr-button {
+                    background-color: #BCAAA4 !important;
+                    color: #795548 !important;
+                    font-family: "Comic Sans MS" !important;
+                }
+
+                .gr-slider .gr-slider-track, .gr-slider .gr-slider-thumb {
+                    background-color: #BCAAA4 !important;
+                }
+
+                .gr-checkbox .gr-checkbox-label {
+                    color: #795548 !important;
+                    font-family: "Comic Sans MS" !important;
+                }
                """) as demo:
     gr.Markdown(
         """
