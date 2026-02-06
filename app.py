@@ -99,19 +99,19 @@ with gr.Blocks(title="Coffee Connoisseur", css="""
                }
                
                .gr-chatbot, .gr-chat-message {
-                   background-color: #D7CCC8;
+                   background-color: #BCAAA4;
                    color: #795548;
                    font-family: "Comic Sans MS" !important;
                }
                
                .gr-button {
-                   background-color: #F8BBD0;
+                   background-color: #BCAAA4;
                    color: #795548;
                    font-family: "Comic Sans MS" !important;
                }
                
                .gr-slider, .gr-checkbox {
-                   background-color: #F8BBD0;
+                   background-color: #BCAAA4;
                    color: #795548;
                    font-family: "Comic Sans MS" !important;
                }
