@@ -75,12 +75,6 @@ def respond(
             max_tokens=max_tokens,
             stream=False,
         )
-
-        #for cost analysis
-        nonstrippedResponse = completion.choices[0].message.content
-        tokenizer = AutoTokenizer.from_pretrained("openai/gpt-oss-20b")
-        tokensUsed = len(tokenizer(nonstrippedResponse)["input_ids"])
-        print("Tokens used: ", tokensUsed)
         
         response = completion.choices[0].message.content.strip()
         
