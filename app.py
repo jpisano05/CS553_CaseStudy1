@@ -115,15 +115,6 @@ with gr.Blocks(title="Coffee Connoisseur", css="""
                    color: #795548;
                    font-family: "Comic Sans MS"
                }
-               
-               div {
-                   background-color: #F8BBD0;
-                   color: #795548;
-                   font-family: "Comic Sans MS";
-                   border: 1px solid #F48FB1;
-                   padding: 15px;
-                   border-radius: 10px;
-               }
                """) as demo:
     gr.Markdown(
         """
