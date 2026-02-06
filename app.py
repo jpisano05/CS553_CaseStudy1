@@ -10,19 +10,6 @@ def respond(
     hf_token: gr.OAuthToken,
     use_local: bool,
 ):
-    global pipe
-    
-    MODEL_ID = "Qwen/Qwen2.5-0.5B-Instruct"
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_ID, trust_remote_code=True)
-    model = AutoModelForCausalLM.from_pretrained(
-        MODEL_ID,
-        trust_remote_code=True,
-        torch_dtype=torch.float16 if device == "cuda" else torch.float32,
-    ).to(device)
-
-    pipe = pipeline("text-generation", model=model, tokenizer=tokenizer)
     
     SYSTEM_PROMPT = '''You are a coffee expert. Based on a user's taste profile, recommend them a type of coffee or espresso based drink.
                         1. The type of coffee bean (origin and variety)
@@ -43,6 +30,20 @@ def respond(
 
     if use_local == True:
         #run local model
+        
+        global pipe
+    
+        MODEL_ID = "Qwen/Qwen2.5-0.5B-Instruct"
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+
+        tokenizer = AutoTokenizer.from_pretrained(MODEL_ID, trust_remote_code=True)
+        model = AutoModelForCausalLM.from_pretrained(
+            MODEL_ID,
+            trust_remote_code=True,
+            torch_dtype=torch.float16 if device == "cuda" else torch.float32,
+        ).to(device)
+
+        pipe = pipeline("text-generation", model=model, tokenizer=tokenizer)
         
         outputs = pipe(
             chat,
