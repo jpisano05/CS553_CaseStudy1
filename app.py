@@ -78,6 +78,7 @@ def respond(
 
         #for cost analysis
         nonstrippedResponse = completion.choices[0].message.content
+        tokenizer = AutoTokenizer.from_pretrained("openai/gpt-oss-20b")
         tokensUsed = len(tokenizer(nonstrippedResponse)["input_ids"])
         print("Tokens used: ", tokensUsed)
         
