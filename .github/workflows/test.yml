@@ -20,4 +20,6 @@ jobs:
           pip install pytest gradio[oauth] huggingface_hub transformers torch
 
       - name: Run pytest for local model
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: pytest -q

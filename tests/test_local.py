@@ -3,13 +3,15 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 import app
 
-def test_api_requires_token():
+def test_local():
+    
+    hf_token = os.environ.get("HF_TOKEN")
 
     response = app.respond(
         "Bright and citrusy",
         "",
         512,
-        0,
+        hf_token,
         True,
     )
     
