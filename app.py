@@ -92,28 +92,28 @@ chatbot = gr.ChatInterface(
 )
 
 with gr.Blocks(title="Coffee Connoisseur", css="""
-               body {
+               body, * {
                    background-color: #F8BBD0;
                    color: #795548;
-                   font-family: "Comic Sans MS"
+                   font-family: "Comic Sans MS" !important;
                }
                
                .gr-chatbot, .gr-chat-message {
                    background-color: #D7CCC8;
                    color: #795548;
-                   font-family: "Comic Sans MS"
+                   font-family: "Comic Sans MS" !important;
                }
                
                .gr-button {
                    background-color: #F8BBD0;
                    color: #795548;
-                   font-family: "Comic Sans MS"
+                   font-family: "Comic Sans MS" !important;
                }
                
                .gr-slider, .gr-checkbox {
                    background-color: #F8BBD0;
                    color: #795548;
-                   font-family: "Comic Sans MS"
+                   font-family: "Comic Sans MS" !important;
                }
                """) as demo:
     gr.Markdown(
