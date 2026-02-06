@@ -94,13 +94,40 @@ chatbot = gr.ChatInterface(
 with gr.Blocks(title="Coffee Connoisseur", css="""
                body {
                    background-color: #F8BBD0;
-                   color: #8D6E63;
+                   color: #795548;
                    font-family: "Comic Sans MS"
+               }
+               
+               .gr-chatbot, .gr-chat-message {
+                   background-color: #D7CCC8;
+                   color: #795548;
+                   font-family: "Comic Sans MS"
+               }
+               
+               .gr-button {
+                   background-color: #F8BBD0;
+                   color: #795548;
+                   font-family: "Comic Sans MS"
+               }
+               
+               .gr-slider, .gr-checkbox {
+                   background-color: #F8BBD0;
+                   color: #795548;
+                   font-family: "Comic Sans MS"
+               }
+               
+               div {
+                   background-color: #F8BBD0;
+                   color: #795548;
+                   font-family: "Comic Sans MS";
+                   border: 1px solid #F48FB1;
+                   padding: 15px;
+                   border-radius: 10px;
                }
                """) as demo:
     gr.Markdown(
         """
-        <div style='border: 1px solid #ccc; padding: 15px; border-radius: 10px; background-color:#D7CCC8'>
+        <div>
         <strong>Instructions:</strong><br>
         Enter a taste profile for a desired coffee drink and the Coffee Connoisseur will recommend you a drink.<br>
         For best results, keep inputs short like "Floral and Delicate" or "Chocolatey and nutty".
