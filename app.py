@@ -93,9 +93,12 @@ chatbot = gr.ChatInterface(
 
 with gr.Blocks(title="Coffee Connoisseur", css="""
                body, * {
-                   background-color: #F8BBD0;
                    color: #795548;
                    font-family: "Comic Sans MS" !important;
+               }
+               
+               body {
+                   background-color: #F8BBD0;
                }
                
                .gr-chatbot, .gr-chat-message {
