@@ -3,6 +3,8 @@ from huggingface_hub import InferenceClient
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 import torch
 
+#Code for differentiation between running locally and API is based on Professor Paffenroth's Chatbot
+
 def respond(
     message,
     history,
@@ -51,12 +53,17 @@ def respond(
             max_new_tokens=max_tokens
         )
         
-        print("Output gotten")
+        #for cost analysis
+        if device == "cuda":
+            #using GPU
+            print("Gpu memory: ", torch.cuda.memory_allocated())
+        else:
+            print("running cpu (i think)")
         
         response = outputs[0]['generated_text'][-1]['content'].strip()
         yield response
     else:
-        # run api model (non-streaming, chat-style)
+        #run api model
 
         client = InferenceClient(
             token=hf_token.token,
@@ -69,7 +76,14 @@ def respond(
             stream=False,
         )
 
+        #for cost analysis
+        nonstrippedResponse = completion.choices[0].message.content
+        tokensUsed = len(tokenizer(nonstrippedResponse)["input_ids"])
+        print("Tokens used: ", tokensUsed)
+        
         response = completion.choices[0].message.content.strip()
+        
+        
         yield response
 
 
