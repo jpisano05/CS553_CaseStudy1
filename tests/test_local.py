@@ -5,7 +5,7 @@ import app
 
 def test_local():
     
-    hf_token = os.environ.get("HF_TOKEN")
+    hf_token = os.environ.get("CASESTUDY1HF")
 
     response = app.respond(
         "Bright and citrusy",

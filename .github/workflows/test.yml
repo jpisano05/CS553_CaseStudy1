@@ -21,5 +21,5 @@ jobs:
 
       - name: Run pytest for local model
         env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_TOKEN: ${{ secrets.CASESTUDY1HF }}
         run: pytest -q
